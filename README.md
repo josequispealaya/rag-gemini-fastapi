@@ -25,6 +25,22 @@ rag-gemini-fastapi/
 
 ## ⚙️ Architecture
 
+```mermaid
+
+sequenceDiagram
+    participant User
+    participant API as FastAPI
+    participant DB as ChromaDB
+    participant LLM as Gemini 3.5 Flash
+
+    User->>API: POST /ask {"question": "..."}
+    API->>DB: Embed query & search context
+    DB-->>API: Return top-k documents
+    API->>LLM: Send prompt + context
+    LLM-->>API: Generate grounded response
+    API-->>User: Return JSON (Answer + Context)
+```
+
 **Ingestion:** Technical documents are converted into vector representations (embeddings) and stored in ChromaDB.
 
 **Retrieval:** Upon receiving an HTTP POST /ask request, the query is vectorized to retrieve the most relevant context via semantic search.
