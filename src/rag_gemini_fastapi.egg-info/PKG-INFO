@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: rag-gemini-fastapi
+Version: 0.1.0
+Summary: Sistema RAG modular usando FastAPI, ChromaDB y Gemini 3.5 Flash Lite
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: chromadb
+Requires-Dist: google-genai
+Requires-Dist: pydantic
+Requires-Dist: python-dotenv

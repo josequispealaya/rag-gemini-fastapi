@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/config.py
+src/generator.py
+src/main.py
+src/vector_store.py
+src/rag_gemini_fastapi.egg-info/PKG-INFO
+src/rag_gemini_fastapi.egg-info/SOURCES.txt
+src/rag_gemini_fastapi.egg-info/dependency_links.txt
+src/rag_gemini_fastapi.egg-info/requires.txt
+src/rag_gemini_fastapi.egg-info/top_level.txt
