@@ -20,5 +20,5 @@ def test_ask_question_no_context():
     assert response.status_code == 200
     data = response.json()
     assert data["question"] == payload["question"]
-    # Corregimos la aserción para esperar la respuesta generada por Gemini
-    assert "No tengo información suficiente" in data["answer"]
+    # En GitHub Actions la BD arranca vacía, así que esperamos este mensaje:
+    assert "No se encontró contexto relevante" in data["answer"]
