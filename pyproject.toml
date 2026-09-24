@@ -15,4 +15,7 @@ dependencies = [
     "google-genai",
     "pydantic",
     "python-dotenv"
+    "pymupdf"
 ]
+
+
