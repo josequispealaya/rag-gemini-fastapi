@@ -33,7 +33,7 @@ def add_document(doc_id: str, text: str):
     )
     print(f"Documento '{doc_id}' indexado con éxito.")
 
-def search_context(query: str, n_results: int = 3) -> str:
+def search_context(query: str, n_results: int = 5) -> str:
     # Usamos el mismo modelo gemini-embedding-2 para buscar
     response = client.models.embed_content(
         model="gemini-embedding-2",
