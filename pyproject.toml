@@ -14,7 +14,7 @@ dependencies = [
     "chromadb",
     "google-genai",
     "pydantic",
-    "python-dotenv"
+    "python-dotenv",
     "pymupdf"
 ]
 
