@@ -27,5 +27,7 @@ jobs:
         pip install -e .
 
     - name: Ejecutar pruebas unitarias
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: |
         python -m pytest
