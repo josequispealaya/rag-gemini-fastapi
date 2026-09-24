@@ -2,6 +2,7 @@ import os
 import chromadb
 from google import genai
 from dotenv import load_dotenv
+from fastapi import HTTPException
 
 load_dotenv()
 
@@ -35,11 +36,18 @@ def add_document(doc_id: str, text: str):
 
 def search_context(query: str, n_results: int = 5) -> str:
     # Usamos el mismo modelo gemini-embedding-2 para buscar
-    response = client.models.embed_content(
-        model="gemini-embedding-2",
-        contents=query
-    )
-    query_embedding = response.embeddings[0].values
+    try:
+        response = client.models.embed_content(
+            model="gemini-embedding-2",
+            contents=query
+        )
+        query_embedding = response.embeddings[0].values
+    except Exception as e:
+        print(f"Error en la API de Embeddings de Gemini: {e}")
+        raise HTTPException(
+            status_code=429, 
+            detail="Límite de peticiones alcanzado o servicio de embeddings saturado. Por favor, esperá un minuto y volvé a intentar."
+        )
     
     results = collection.query(
         query_embeddings=[query_embedding], 
