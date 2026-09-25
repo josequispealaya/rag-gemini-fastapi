@@ -1,10 +1,10 @@
 import os
-import fitz  # PyMuPDF
+import pymupdf 
 from src.vector_store import add_document
 
 def extract_text_from_pdf(pdf_path: str) -> str:
     """Extrae todo el texto de un archivo PDF usando PyMuPDF."""
-    doc = fitz.open(pdf_path)
+    doc = pymupdf.open(pdf_path)
     text = ""
     for page in doc:
         text += page.get_text() + "\n"
@@ -46,13 +46,4 @@ def process_and_ingest_pdf(pdf_filename: str):
         add_document(doc_id, chunk)
         
     print(f"¡Ingesta de '{pdf_filename}' completada con éxito!")
-
-if __name__ == "__main__":
-    # Aseguramos que la carpeta data exista
-    os.makedirs("data", exist_ok=True)
     
-    # Nombre del archivo que vamos a procesar
-    # Reemplazá esto con el nombre de tu archivo PDF real
-    archivo_pdf = "termo.pdf" 
-    
-    process_and_ingest_pdf(archivo_pdf)
