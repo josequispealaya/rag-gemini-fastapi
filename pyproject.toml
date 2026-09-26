@@ -15,7 +15,9 @@ dependencies = [
     "google-genai",
     "pydantic",
     "python-dotenv",
-    "pymupdf"
+    "pymupdf",
+    "streamlit",
+    "requests"
 ]
 
 

@@ -1,7 +1,14 @@
-from fastapi import FastAPI, HTTPException, Body
+import os
+import shutil
+from fastapi import FastAPI, File, UploadFile, HTTPException, Body
 from pydantic import BaseModel
 from src.vector_store import search_context
 from src.generator import generate_answer
+
+# Importamos la función de ingesta
+from ingestar_pdf import process_and_ingest_pdf
+from src.vector_store import add_document
+from typing import List
 
 app = FastAPI(
     title="RAG Gemini API", 
@@ -62,3 +69,37 @@ def ask_question(
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Agregamos el endpoint para subir PDFs y procesarlos
+@app.post("/upload")
+async def upload_pdfs(files: List[UploadFile] = File(...)):
+    os.makedirs("data", exist_ok=True)
+    procesados = []
+    
+    for file in files:
+        if not file.filename.endswith(".pdf"):
+            continue # Saltamos los archivos que no sean PDF
+        
+        file_path = os.path.join("data", file.filename)
+        
+        try:
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+                
+            # Validación de tamaño individual (5MB)
+            file_size = os.path.getsize(file_path)
+            if file_size > 5 * 1024 * 1024:
+                os.remove(file_path)
+                continue
+            
+            # Ingestar usando tu función empaquetada
+            process_and_ingest_pdf(file.filename)
+            procesados.append(file.filename)
+            
+        except Exception as e:
+            print(f"Error procesando {file.filename}: {e}")
+            
+    if not procesados:
+        raise HTTPException(status_code=400, detail="Ningún archivo válido superó las validaciones.")
+        
+    return {"message": f"Archivos procesados exitosamente: {', '.join(procesados)}"}
